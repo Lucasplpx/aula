@@ -22,7 +22,7 @@
                         <div class="row">
                             <div class="col-md-12 form-group has-error">
                                 <label for="group_nome">Nome do Grupo</label>
-                                <input type="text" class="form-control" value="<?php echo $permissao_grupo_nome;?>" name="nome" id="group_nome">
+                                <input type="text" class="form-control" value="<?php echo utf8_encode($permissao_grupo_nome);?>" name="nome" id="group_nome">
                             </div>
                         </div>
 

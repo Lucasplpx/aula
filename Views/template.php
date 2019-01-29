@@ -5,12 +5,13 @@ Author: Hencework
 Contact: https://hencework.ticksy.com/
 License: You must have a valid license purchased only from themeforest to legally use the template for your project.
 -->
-<html lang="en">
+<html lang="pt-br">
 
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<title>Home | Lab</title>
+	
 	<meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
 
 	<!-- Favicon -->
@@ -69,7 +70,7 @@ License: You must have a valid license purchased only from themeforest to legall
 								<span class="badge badge-success badge-indicator"></span>
 							</div>
 							<div class="media-body">
-								<span>Lucas Passos<i class="zmdi zmdi-chevron-down"></i></span>
+								<span><?php echo $viewData['user']->getNome();?><i class="zmdi zmdi-chevron-down"></i></span>
 							</div>
 						</div>
 					</a>
@@ -110,16 +111,17 @@ License: You must have a valid license purchased only from themeforest to legall
 
 					<hr class="nav-separator">
 					<div class="nav-header">
-						<span>User Interface</span>
-						<span>UI</span>
+						<span>Lab Tox</span>
+						<span>LT</span>
 					</div>
 					<ul class="navbar-nav flex-column">
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo BASE_URL?>">
 								<span class="feather-icon"><i data-feather="layout"></i></span>
-								<span class="nav-link-text">Dashboard</span>
+								<span class="nav-link-text">Home</span>
 							</a>
 						</li>
+
 						<?php if( $viewData['user']->temPermissao('ver_permissoes') ):?>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo BASE_URL;?>permissao">
@@ -128,12 +130,16 @@ License: You must have a valid license purchased only from themeforest to legall
 							</a>
 						</li>
 						<?php endif;?>
+
+						<?php if( $viewData['user']->temPermissao('categories_view') ):?>
 						<li class="nav-item">
-							<a class="nav-link" href="javascript:void(0);" >
+							<a class="nav-link" href="<?php echo BASE_URL;?>categories" >
 								<span class="feather-icon"><i data-feather="type"></i></span>
-								<span class="nav-link-text">Link</span>
+								<span class="nav-link-text">Categorias</span>
 							</a>
 						</li>
+						<?php endif;?>
+
 						<li class="nav-item">
 							<a class="nav-link" href="javascript:void(0);">
 								<span class="feather-icon"><i data-feather="anchor"></i></span>
@@ -172,7 +178,7 @@ License: You must have a valid license purchased only from themeforest to legall
 					<footer class="footer">
 						<div class="row">
 							<div class="col-md-6 col-sm-12">
-								<p>Projeto by<a href="#" class="text-dark" target="_blank">Lucas</a> © 2019</p>
+								<p>Projeto by<a href="#" class="text-dark" target="_blank"><?php echo $viewData['user']->getNome(); ?></a> © 2019</p>
 							</div>
 							<div class="col-md-6 col-sm-12">
 

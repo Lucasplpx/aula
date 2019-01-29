@@ -81,6 +81,43 @@ class Permissao extends Model {
         return $array;
     }
 
+    public function addItem($nome, $slug){
+
+        $sql = "INSERT INTO permissao_itens (nome , slug) VALUES (:nome , :slug)";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":nome", utf8_encode($nome));
+        $sql->bindValue(":slug", utf8_encode($slug));
+        $sql->execute();
+
+    }
+
+    public function getPermissaoItemNome($id_permissao){
+
+        $sql = "SELECT * FROM permissao_itens WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id_permissao);
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+            $data = $sql->fetchAll(\PDO::FETCH_ASSOC);
+            return $data;
+        } else {
+            return '';
+        }
+
+    }
+
+    public function updateItem($id, $nome, $slug){
+
+        $sql = "UPDATE permissao_itens SET nome = :nome , slug = :slug WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->bindValue(":nome", utf8_decode($nome));
+        $sql->bindValue(":slug", utf8_decode($slug));
+        $sql->execute();
+
+    }
+
     public function canDeleteItem($id_item){
 
         $sql = "SELECT  count(pl.id_permissao_item) as total_itens FROM permissao_itens pi
@@ -92,23 +129,23 @@ class Permissao extends Model {
         $sql->execute();
 
         $data = $sql->fetch();
-        $total_itens = $data['total_itens'];
+        $total_itens = intval($data['total_itens']);
 
-        if($total_itens === 0){
+      
+
+        if($total_itens == 0){
             return true;
-        } else {
+        } else {           
             return false;
         }
 
 
     }
 
-
-
     public function editNome($nome, $id){
         $sql = "UPDATE permissao_grupos SET nome = :nome WHERE id = :id";
         $sql = $this->db->prepare($sql);
-        $sql->bindValue(":nome", $nome);
+        $sql->bindValue(":nome", utf8_decode($nome));
         $sql->bindValue(":id", $id);
         $sql->execute();
     }
@@ -164,7 +201,7 @@ class Permissao extends Model {
 
         $sql = "INSERT INTO permissao_grupos (nome) VALUES (:nome)";
         $sql = $this->db->prepare($sql);
-        $sql->bindValue(":nome", $nome);
+        $sql->bindValue(":nome", utf8_encode($nome));
         $sql->execute();
 
         return $this->db->lastInsertId();

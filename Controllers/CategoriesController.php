@@ -3,8 +3,9 @@ namespace Controllers;
 
 use \Core\Controller;
 use \Models\Usuario;
+use \Models\Categorie;
 
-class HomeController extends Controller {
+class CategoriesController extends Controller {
 
 	private $user;
 	private $arrayInfo;
@@ -19,20 +20,23 @@ class HomeController extends Controller {
 
 		$this->arrayInfo = array(
 			'user' => $this->user,
-			'menuActive' => 'home'
+			'menuActive' => 'categories'
 		);
 
 
 	}
 
 	public function index() {
-		$array = array(
-			'user' => $this->user
+        $array = array(
+            'user' => $this->user,
+            'list' => array()
 		);
+		
+		$c = new Categorie();
 
-	
+		$array['list'] = $c->getCategories();
 
-		$this->loadTemplate('home', $array);
+		$this->loadTemplate('categories', $array);
 	}
 
 }

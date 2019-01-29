@@ -41,7 +41,9 @@ class PermissaoController extends Controller {
         $array = array(
             'user' => $this->user,
             'list' => array(),
-            'error_del' => array() 
+            'error_del' => array(),
+            'sucesso' => array(),
+            'delSucesso' => array()
         );
 
         $p = new Permissao();
@@ -52,22 +54,134 @@ class PermissaoController extends Controller {
             $array['error_del'] = $_SESSION['delError'];
             unset($_SESSION['delError']);
         }
+
+        if(isset($_SESSION['update']) && count($_SESSION['update']) > 0){
+            $array['sucesso'] = $_SESSION['update'];
+            unset($_SESSION['update']);
+        }
+
+        if(isset($_SESSION['delSuccess']) && count($_SESSION['delSuccess']) > 0){
+            $array['delSucesso'] = $_SESSION['delSuccess'];
+            unset($_SESSION['delSuccess']);
+        }
+
+        
        
     
         $this->loadTemplate('permissao_itens', $array);
     }
 
+    public function itens_add(){
+        $array = array(
+            'user' => $this->user,
+            'errorItems' => array()
+        );
+
+        $p = new Permissao();
+
+        if(isset($_SESSION['formError']) && count($_SESSION['formError']) > 0){
+            $array['errorItems'] = $_SESSION['formError'];
+            unset($_SESSION['formError']);
+        }
+
+        $this->loadTemplate('permissao_itens_add', $array);
+    }
+
+    public function add_itens_action() {
+        $p = new Permissao();
+
+        if(!empty($_POST['nome']) && !empty($_POST['slug'])){
+            $nome = $_POST['nome'];
+            $slug = $_POST['slug'];
+
+            $p->addItem($nome, $slug);
+
+            header("Location: ".BASE_URL."permissao/itens");
+            exit;
+
+        } else {
+            $_SESSION['formError'] = array('name');
+
+            header("Location: ".BASE_URL.'permissao/itens_add');
+            exit;
+        }
+        
+    }
+
+    public function edit_itens_action($id) {
+        $p = new Permissao();
+        if(!empty($id)){
+     
+            if(!empty($_POST['nome']) && !empty($_POST['slug'])){
+                $nome = $_POST['nome'];
+                $slug = $_POST['slug'];
+
+                $p->updateItem($id, $nome, $slug);
+
+                $_SESSION['update'] = array('success');
+
+                header("Location: ".BASE_URL."permissao/itens");
+                exit;
+
+            } else {
+                $_SESSION['formError'] = array('name');
+
+                header("Location: ".BASE_URL.'permissao/itens_edit');
+                exit;
+            }
+        }
+
+    }
+
+    public function itens_edit($id){
+        if(!empty($id)){
+
+            $array = array(
+                'user' => $this->user,
+                'errorItems' => array()
+            );
+
+            $p = new Permissao();
+
+            $nome = '';
+            $slug = '';
+            $array['permissao_item'] = $p->getPermissaoItemNome($id);
+            foreach($array['permissao_item'] as $item){
+                
+                $nome = $item['nome'];
+                $slug = $item['slug'];
+            }
+            $array['id_item'] = $id;
+            $array['nome'] = $nome;
+            $array['slug'] = $slug;
+
+    
+
+            if(isset($_SESSION['formError']) && count($_SESSION['formError']) > 0){
+                $array['errorItems'] = $_SESSION['formError'];
+                unset($_SESSION['formError']);
+            }
+
+            $this->loadTemplate('permissao_itens_edit', $array);
+        } else {
+            header("Location: ".BASE_URL.'permissao/itens');
+            exit;
+        }
+    }
+
     public function itens_del($id_item){
         $p = new Permissao();
 
-        $p->deleteItem($id_item);
-
-        if(!$p->canDeleteItem($id_item)){
+        if($p->canDeleteItem($id_item) == false){
             $_SESSION['delError'] = array('delete');
     
             header("Location: ".BASE_URL.'permissao/itens');
             exit;
         }
+
+        $p->deleteItem($id_item);
+
+        $_SESSION['delSuccess'] = array('delete');
 
         header("Location: ".BASE_URL.'permissao/itens');
         exit;

@@ -19,12 +19,34 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
+                            <?php endif;?>
+
+                            <?php if(!empty(in_array('success', $sucesso))):?>
+
+                            <div class="alert alert-success alert-wth-icon alert-dismissible fade show" role="alert">
+                                <span class="alert-icon-wrap"><i class="zmdi zmdi-check-circle"></i></span> Atualizado com sucesso
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
 
                             <?php endif;?>
+
+                            <?php if(!empty(in_array('delete', $delSucesso))):?>
+
+                                <div class="alert alert-danger alert-wth-icon alert-dismissible fade show" role="alert">
+                                    <span class="alert-icon-wrap"><i class="zmdi zmdi-bug"></i></span> Excluido com sucesso
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                            <?php endif;?>
+
                                 <table class="table mb-0">
                                     <thead>
                                         <tr>
-                                            <th style="font-weight: bold;">Nome do item de permissão</th>       
+                                            <th style="font-weight: bold;">Nome de Permissão</th>       
                                             <th style="font-weight: bold;">Slug</th>                  
                                             <th style="font-weight: bold;">Ações</th>                   
                                         </tr>
