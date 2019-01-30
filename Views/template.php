@@ -140,12 +140,15 @@ License: You must have a valid license purchased only from themeforest to legall
 						</li>
 						<?php endif;?>
 
+						<?php if( $viewData['user']->temPermissao('brands_view') ):?>
 						<li class="nav-item">
-							<a class="nav-link" href="javascript:void(0);">
+							<a class="nav-link" href="<?php echo BASE_URL;?>brands">
 								<span class="feather-icon"><i data-feather="anchor"></i></span>
-								<span class="nav-link-text">Link</span>
+								<span class="nav-link-text">Marcas</span>
 							</a>
 						</li>
+						<?php endif;?>
+
 						<li class="nav-item">
 							<a class="nav-link" href="javascript:void(0);">
 								<span class="feather-icon"><i data-feather="server"></i></span>

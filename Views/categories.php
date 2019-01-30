@@ -19,19 +19,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($list as $item):?>
-                                        <tr>
-                                            <td><?php echo utf8_encode($item['name']);?></td>
-                                            
-                                            <td> 
-                                            <div class="btn-group mb-25 mr-10">
-                                                <a href="<?php echo BASE_URL.'categories/edit/'.$item['id'];?>" class="btn btn-gradient-info">Editar</a>
-                                                <a href="<?php echo BASE_URL.'categories/del/'.$item['id'];?>" class="btn btn-gradient-danger">Excluir</a>
-                                            
-                                            </div>
-                                            </td>
-                                        </tr>
-                                        <?php endforeach;?>                 
+                                        <?php $this->loadView('categories_item', array(
+                                            'itens' => $list,
+                                            'level' => 0
+                                        ));?>
                                     </tbody>                                   
                                 </table>
                                

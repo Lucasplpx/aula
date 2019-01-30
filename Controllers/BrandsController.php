@@ -3,9 +3,9 @@ namespace Controllers;
 
 use \Core\Controller;
 use \Models\Usuario;
-use \Models\Categorie;
+use \Models\Brand;
 
-class CategoriesController extends Controller {
+class BrandsController extends Controller {
 
 	private $user;
 	private $arrayInfo;
@@ -20,7 +20,7 @@ class CategoriesController extends Controller {
 
 		$this->arrayInfo = array(
 			'user' => $this->user,
-			'menuActive' => 'categories'
+			'menuActive' => 'brands'
 		);
 
 
@@ -32,11 +32,11 @@ class CategoriesController extends Controller {
             'list' => array()
 		);
 		
-		$c = new Categorie();
+		$b = new Brand();
 
-		$array['list'] = $c->getAll();
+		$array['list'] = $b->getAll();
 
-		$this->loadTemplate('categories', $array);
+		$this->loadTemplate('brands', $array);
 	}
 
 }
