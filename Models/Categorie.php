@@ -51,4 +51,28 @@ class Categorie extends Model {
     }
 
 
+    public function add($name, $sub){
+        
+        $sql = "INSERT INTO categories (name, sub) VALUES (:name, :sub)";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":name", $name);
+        $sql->bindValue(":sub", $sub);
+        $sql->execute();
+    }
+
+    public function getCategoria($id){
+        $array = array();
+
+        $sql = "SELECT * FROM categories WHERE id = :id";
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+            $array = $sql->fetch(\PDO::FETCH_ASSOC);
+        }
+
+        return $array;
+    }
+
 }

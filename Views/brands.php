@@ -9,6 +9,18 @@
                 <div class="row">
                     <div class="col-sm">
                         <div class="table-wrap">
+
+                        <?php if(!empty(in_array('nome', $errorNome))):?>
+
+                        <div class="alert alert-danger alert-wth-icon alert-dismissible fade show" role="alert">
+                            <span class="alert-icon-wrap"><i class="zmdi zmdi-bug"></i></span> Favor editar uma info válida!
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <?php endif;?>
+
                             <div class="table-responsive">
                                 <table class="table mb-0">
                                     <thead>
