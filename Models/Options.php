@@ -3,16 +3,16 @@ namespace Models;
 
 use \Core\Model;
 
-class Brand extends Model {
+class Options extends Model {
 
-    public function getAll($show_product_count = true){
+    public function getAll($check_has_products = false){
         $data = array();
 
-        if($show_product_count) {
-            $sql = "SELECT *, (select count(*) from products where products.id_brand = brands.id) as product_count FROM brands";
+        if($has_products){
+            $sql = "SELECT *, (select count(*) from products_options WHERE products_options.id = options.id ) as product_count FROM options";
         } else {
-            $sql = "SELECT * FROM brands";
-        }
+            $sql = "SELECT * FROM options";
+        }       
 
         $sql = $this->db->query($sql);
 
@@ -24,11 +24,11 @@ class Brand extends Model {
         return $data;
     }
 
-    public function addMarca($nome){
+    public function add($nome){
 
         if(!empty($nome)){
 
-            $sql = "INSERT INTO brands (name) VALUES (:name)";
+            $sql = "INSERT INTO options (name) VALUES (:name)";
             $sql = $this->db->prepare($sql);
             $sql->bindValue(":name", $nome);
             $sql->execute();
@@ -37,12 +37,12 @@ class Brand extends Model {
 
     }
 
-    public function getMarca($id){
+    public function get($id){
 
         $data = array();
         if(!empty(intval($id))){
 
-            $sql = "SELECT * FROM brands WHERE id = :id";
+            $sql = "SELECT * FROM options WHERE id = :id";
             $sql = $this->db->prepare($sql);
             $sql->bindValue(":id", $id);
             $sql->execute();
@@ -55,11 +55,11 @@ class Brand extends Model {
         }
     }
 
-    public function editMarca($id, $nome){
+    public function edit($id, $nome){
 
         if(!empty($id)){
 
-            $sql = "UPDATE brands SET name = :nome WHERE id = :id";
+            $sql = "UPDATE options SET name = :nome WHERE id = :id";
             $sql = $this->db->prepare($sql);
             $sql->bindValue(":nome", $nome);
             $sql->bindValue(":id", $id);
@@ -69,12 +69,12 @@ class Brand extends Model {
 
     }
 
-    public function deleteMarca($id_marca){
-        if(!empty(intval($id_marca))){
-
-            $sql = "DELETE FROM brands WHERE id = :id";
+    public function delete($id){
+        if(!empty(intval($id))){
+        
+            $sql = "DELETE FROM options WHERE id = :id";
             $sql = $this->db->prepare($sql);
-            $sql->bindValue(':id', $id_marca);
+            $sql->bindValue(':id', $id);
             $sql->execute();
 
         }

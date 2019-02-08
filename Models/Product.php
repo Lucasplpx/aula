@@ -2,28 +2,36 @@
 namespace Models;
 
 use \Core\Model;
+use \Models\Categories;
+use \Models\Brand;
 
-class Brand extends Model {
+class Product extends Model {
 
-    public function getAll($show_product_count = true){
+
+    public function getAll(){
+        $cat = new Categorie();
+        $brands = new Brand();
         $data = array();
 
-        if($show_product_count) {
-            $sql = "SELECT *, (select count(*) from products where products.id_brand = brands.id) as product_count FROM brands";
-        } else {
-            $sql = "SELECT * FROM brands";
-        }
-
+        $sql = "SELECT id_category, id_brand, name, stock, price, price_from FROM products";   
         $sql = $this->db->query($sql);
 
-        if($sql->rowCount() > 0){
-        
+        if($sql->rowCount() > 0){        
             $data = $sql->fetchAll(\PDO::FETCH_ASSOC);
+           
+            foreach($data as $key => $item){
+                $catInfo = $cat->getCategoria($item['id_category']);
+                $brandInfo = $brands->getMarca($item['id_brand']);
+
+                $data[$key]['name_category'] = $catInfo['name'];
+                $data[$key]['name_brand'] = $brandInfo['name'];
+            }
 
         }
         return $data;
     }
 
+    /*
     public function addMarca($nome){
 
         if(!empty($nome)){
@@ -79,5 +87,5 @@ class Brand extends Model {
 
         }
     }
-
+    */
 }

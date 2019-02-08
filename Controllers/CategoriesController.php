@@ -133,4 +133,21 @@ class CategoriesController extends Controller {
 
 	}
 
+	public function del($id){
+		if(!empty($id)){
+
+			$cat = new Categorie();
+
+			$cats = $cat->scanCategories($id);
+
+			if($cat->hasProducts($cats) == false){
+				$cat->deleteCategories($cats);
+			}
+			
+
+		} else {
+			header("Location: ".BASE_URL."categories");
+			exit;
+		}
+	}	
 }

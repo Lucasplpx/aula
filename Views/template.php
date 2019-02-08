@@ -149,12 +149,32 @@ License: You must have a valid license purchased only from themeforest to legall
 						</li>
 						<?php endif;?>
 
+						<?php if( $viewData['user']->temPermissao('options_view') ):?>
 						<li class="nav-item">
-							<a class="nav-link" href="javascript:void(0);">
-								<span class="feather-icon"><i data-feather="server"></i></span>
-								<span class="nav-link-text">Link</span>
+							<a class="nav-link" href="<?php echo BASE_URL;?>options">
+								<span class="feather-icon"><i data-feather="anchor"></i></span>
+								<span class="nav-link-text">Opções</span>
 							</a>
 						</li>
+						<?php endif;?>
+
+						<?php if( $viewData['user']->temPermissao('pages_view') ):?>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo BASE_URL;?>pages">
+								<span class="feather-icon"><i data-feather="anchor"></i></span>
+								<span class="nav-link-text">Páginas</span>
+							</a>
+						</li>
+						<?php endif;?>
+
+						<?php if( $viewData['user']->temPermissao('products_view') ):?>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo BASE_URL;?>products">
+								<span class="feather-icon"><i data-feather="anchor"></i></span>
+								<span class="nav-link-text">Produtos</span>
+							</a>
+						</li>
+						<?php endif;?>
 
 				</div>
 			</div>

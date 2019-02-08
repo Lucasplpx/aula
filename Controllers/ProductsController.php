@@ -3,9 +3,11 @@ namespace Controllers;
 
 use \Core\Controller;
 use \Models\Usuario;
+use \Models\Product;
+use \Models\Categorie;
 use \Models\Brand;
 
-class BrandsController extends Controller {
+class ProductsController extends Controller {
 
 	private $user;
 	private $arrayInfo;
@@ -33,9 +35,9 @@ class BrandsController extends Controller {
 			'errorNome' => array()
 		);
 		
-		$b = new Brand();
+		$p = new Product();
 
-		$array['list'] = $b->getAll();
+		$array['list'] = $p->getAll();
 
 
 		if(isset($_SESSION['errorEdit']) && count($_SESSION['errorEdit']) > 0){
@@ -43,33 +45,53 @@ class BrandsController extends Controller {
             unset($_SESSION['errorEdit']);
         }
 
-		$this->loadTemplate('brands', $array);
+		$this->loadTemplate('products', $array);
 	}
 
+
 	public function add(){
+		$b = new Brand();
+		$cat = new Categorie();
+
 		$array = array(
             'user' => $this->user,
-            'errorName' => array()
+            'errorItems' => array()
 		);
 		
-		$b = new Brand();
-
+		
+		$array['catList'] = $cat->getAll();
 		$array['list'] = $b->getAll();
 
 		if(isset($_SESSION['formError']) && count($_SESSION['formError']) > 0){
-            $array['errorName'] = $_SESSION['formError'];
+            $array['errorItems'] = $_SESSION['formError'];
             unset($_SESSION['formError']);
         }
 
-		$this->loadTemplate('brands_add', $array);
+		$this->loadTemplate('products_add', $array);
 	}
-
+    
 	public function add_action(){
-		$b = new Brand();
+		$cat = new Categorie();
 
-        if(!empty($_POST['nome'])){
-            $nome = $_POST['nome'];
-            $b->addMarca($nome);
+        if(!empty($_POST['id_category']) && !empty($_POST['id_brand']) && !empty($_POST['name'])){
+			$idCategorie = $_POST['id_category'];
+			$idMarca = $_POST['id_brand'];
+			$nomeProduto = $_POST['name'];
+			$estoque = $_POST['stock'];
+			$price_from = $_POST['price_from'];
+			$price = $_POST['price'];
+			$peso = $_POST['weight'];
+			$largura = $_POST['width'];
+			$altura = $_POST['height'];
+			$comprimento = $_POST['lenght'];
+			$diametro = $_POST['diameter'];
+			$descricao = $_POST['body'];
+			$destaque = $_POST=['featured'];
+			$promocao = $_POST=['sale'];
+			$vendidos = $_POST['bestseller'];
+			$novoProduto = $_POST['new_product'];
+
+            $cat->add($idCategorie, $idMarca, $nomeProduto, $estoque, $price_from, $price, $peso, $largura, $altura, $comprimento, $diametro, $descricao, $destaque, $promocao, $vendidos, $novoProduto);
 			            
             header("Location: ".BASE_URL."brands");
             exit;
@@ -83,6 +105,7 @@ class BrandsController extends Controller {
 
 	}
 
+	/*
 	public function edit($id){
 		$array = array(
             'user' => $this->user,
@@ -144,5 +167,6 @@ class BrandsController extends Controller {
         header("Location: ".BASE_URL.'brands');
         exit;
     }
+    */
 
 }
